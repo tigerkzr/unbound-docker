@@ -44,9 +44,9 @@ FROM debian:bullseye as unbound
 LABEL maintainer="Matthew Vance"
 
 ENV NAME=unbound \
-    UNBOUND_VERSION=1.17.0 \
-    UNBOUND_SHA256=dcbc95d7891d9f910c66e4edc9f1f2fde4dea2eec18e3af9f75aed44a02f1341 \
-    UNBOUND_DOWNLOAD_URL=https://nlnetlabs.nl/downloads/unbound/unbound-1.17.0.tar.gz
+    UNBOUND_VERSION=1.17.1 \
+    UNBOUND_SHA256=ee4085cecce12584e600f3d814a28fa822dfaacec1f94c84bfd67f8a5571a5f4 \
+    UNBOUND_DOWNLOAD_URL=https://nlnetlabs.nl/downloads/unbound/unbound-1.17.1.tar.gz
 
 WORKDIR /tmp/src
 
@@ -67,7 +67,7 @@ RUN build_deps="curl gcc libc-dev libevent-dev libexpat1-dev libnghttp2-dev make
     echo "${UNBOUND_SHA256} *unbound.tar.gz" | sha256sum -c - && \
     tar xzf unbound.tar.gz && \
     rm -f unbound.tar.gz && \
-    cd unbound-1.17.0 && \
+    cd unbound-1.17.1 && \
     groupadd _unbound && \
     useradd -g _unbound -s /dev/null -d /etc _unbound && \
     ./configure \
