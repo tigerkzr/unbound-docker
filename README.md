@@ -1,7 +1,17 @@
 # Unbound DNS Server Docker Image
 
 ## Supported tags and respective `Dockerfile` links
-- [`1.17.0`, `latest` (*1.17.0/Dockerfile*)](https://github.com/MatthewVance/unbound-docker/tree/master/1.17.0)
+- [`1.22.0`, `latest` (*1.22.0/Dockerfile*)](https://github.com/MatthewVance/unbound-docker/tree/master/1.22.0)
+- [`1.21.1`, (*1.21.1/Dockerfile*)](https://github.com/MatthewVance/unbound-docker/tree/master/1.21.1)
+- [`1.21.0`, (*1.21.0/Dockerfile*)](https://github.com/MatthewVance/unbound-docker/tree/master/1.21.0)
+- [`1.20.0`, (*1.20.0/Dockerfile*)](https://github.com/MatthewVance/unbound-docker/tree/master/1.20.0)
+- [`1.19.3`, (*1.19.3/Dockerfile*)](https://github.com/MatthewVance/unbound-docker/tree/master/1.19.3)
+- [`1.19.2`, (*1.19.2/Dockerfile*)](https://github.com/MatthewVance/unbound-docker/tree/master/1.19.2)
+- [`1.19.1`, (*1.19.1/Dockerfile*)](https://github.com/MatthewVance/unbound-docker/tree/master/1.19.1)
+- [`1.19.0`, (*1.19.0/Dockerfile*)](https://github.com/MatthewVance/unbound-docker/tree/master/1.19.0)
+- [`1.18.0`, (*1.18.0/Dockerfile*)](https://github.com/MatthewVance/unbound-docker/tree/master/1.18.0)
+- [`1.17.1`, (*1.17.1/Dockerfile*)](https://github.com/MatthewVance/unbound-docker/tree/master/1.17.1)
+- [`1.17.0`, (*1.17.0/Dockerfile*)](https://github.com/MatthewVance/unbound-docker/tree/master/1.17.0)
 - [`1.16.3`, (*1.16.3/Dockerfile*)](https://github.com/MatthewVance/unbound-docker/tree/master/1.16.3)
 - [`1.16.2`, (*1.16.2/Dockerfile*)](https://github.com/MatthewVance/unbound-docker/tree/master/1.16.2)
 - [`1.16.1`, (*1.16.1/Dockerfile*)](https://github.com/MatthewVance/unbound-docker/tree/master/1.16.1)
@@ -75,7 +85,7 @@ docker run \
 --publish=53:53/tcp \
 --publish=53:53/udp \
 --restart=unless-stopped \
----volume $(pwd)/forward-records.conf:/opt/unbound/etc/unbound/forward-records.conf:ro \
+--volume $(pwd)/forward-records.conf:/opt/unbound/etc/unbound/forward-records.conf:ro \
 mvance/unbound:latest
 ```
 
@@ -206,33 +216,16 @@ services:
     expose:
       - "53"
     networks:
-     - dns
-    network_mode: bridge
+      - dns
     ports:
-      - target: 53
-        published: 53
-        protocol: tcp
-        mode: host
-      - target: 53
-        published: 53
-        protocol: udp
-        mode: host
+      - "53:53/tcp"
+      - "53:53/udp"
     volumes:
-      - type: bind
-        read_only: true
-        source: ./my_conf/forward-records.conf
-        target: /opt/unbound/etc/unbound/forward-records.conf
-      - type: bind
-        read_only: true
-        source: ./my_conf/a-records.conf
-        target: /opt/unbound/etc/unbound/a-records.conf
+      - "/data/unbound/my_conf/forward-records.conf:/opt/unbound/etc/unbound/forward-records.conf"
+      - "/data/unbound/my_conf/a-records.conf:/opt/unbound/etc/unbound/a-records.conf"
     restart: unless-stopped
-
 networks:
   dns:
-
-volumes:
-  mydata:
 ```
 
 If you would rather provide a fully custom `unbound.conf` file, you will need to provide an `unbound.conf` file and mount it as a volume:
